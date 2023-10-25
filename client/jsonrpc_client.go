@@ -142,7 +142,7 @@ func (cli *JSONRPCClient) GetBlockTransactionsByNamespace(
 	resp := new(types.SEQTransactionResponse)
 	err := cli.requester.SendRequest(
 		ctx,
-		"getBlockTransactions",
+		"getBlockTransactionsByNamespace",
 		&types.GetBlockTransactionsByNamespaceArgs{
 			Height:    height,
 			Namespace: namespace,
