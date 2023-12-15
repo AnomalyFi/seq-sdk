@@ -4,6 +4,7 @@ type BlockInfo struct {
 	BlockId   string `json:"id"`
 	Timestamp int64  `json:"timestamp"`
 	L1Head    uint64 `json:"l1_head"`
+	Height    uint64 `json:"height"`
 }
 
 type BlockHeadersResponse struct {
