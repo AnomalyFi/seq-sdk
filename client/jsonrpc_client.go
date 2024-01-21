@@ -151,3 +151,14 @@ func (cli *JSONRPCClient) GetBlockTransactionsByNamespace(
 	)
 	return resp, err
 }
+
+func (cli *JSONRPCClient) LastAccepted(ctx context.Context) (*types.LastAcceptedReply, error) {
+	resp := new(types.LastAcceptedReply)
+	err := cli.requester.SendRequest(
+		ctx,
+		"lastAccepted",
+		nil,
+		resp,
+	)
+	return resp, err
+}

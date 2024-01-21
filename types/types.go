@@ -28,8 +28,17 @@ type SEQTransaction struct {
 
 // TODO need to fix this. Tech debt
 type SEQTransactionResponse struct {
-	Txs     []*SEQTransaction `json:"txs"`
-	BlockId string            `json:"id"`
+	Txs       []*SEQTransaction `json:"txs"`
+	BlockId   string            `json:"id"`
+	Timestamp int64             `json:"timestamp"`
+	L1Head    uint64            `json:"l1_head"`
+	Height    uint64            `json:"height"`
+}
+
+type LastAcceptedReply struct {
+	Height    uint64 `json:"height"`
+	BlockID   string `json:"blockId"`
+	Timestamp int64  `json:"timestamp"`
 }
 
 type GetBlockHeadersByHeightArgs struct {
