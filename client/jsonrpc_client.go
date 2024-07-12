@@ -31,10 +31,10 @@ func NewJSONRPCClient(uri string, networkID uint32, chainID string) *JSONRPCClie
 }
 
 type SubmitMsgTxArgs struct {
-	ChainId          string `json:"chain_id"`
-	NetworkID        uint32 `json:"network_id"`
-	SecondaryChainId []byte `json:"secondary_chain_id"`
-	Data             []byte `json:"data"`
+	ChainId          string   `json:"chain_id"`
+	NetworkID        uint32   `json:"network_id"`
+	SecondaryChainId []byte   `json:"secondary_chain_id"`
+	Data             [][]byte `json:"data"`
 }
 
 type SubmitMsgTxReply struct {
@@ -46,7 +46,7 @@ func (cli *JSONRPCClient) SubmitTx(
 	ChainId string,
 	NetworkID uint32,
 	SecondaryChainId []byte,
-	Data []byte,
+	Data [][]byte,
 ) (string, error) {
 	resp := new(SubmitMsgTxReply)
 	err := cli.requester.SendRequest(
