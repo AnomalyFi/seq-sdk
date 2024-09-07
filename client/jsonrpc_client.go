@@ -21,8 +21,8 @@ type JSONRPCClient struct {
 // New creates a new client object.
 func NewJSONRPCClient(uri string, networkID uint32, chainID string) *JSONRPCClient {
 	uri = strings.TrimSuffix(uri, "/")
-	uri += "/tokenapi"
-	req := requester.New(uri, "tokenvm")
+	uri += "/seqapi"
+	req := requester.New(uri, "seqvm")
 	return &JSONRPCClient{
 		requester: req,
 		networkID: networkID,
@@ -31,9 +31,9 @@ func NewJSONRPCClient(uri string, networkID uint32, chainID string) *JSONRPCClie
 }
 
 type SubmitMsgTxArgs struct {
-	ChainId          string `json:"chain_id"`
+	ChainID          string `json:"chain_id"`
 	NetworkID        uint32 `json:"network_id"`
-	SecondaryChainId []byte `json:"secondary_chain_id"`
+	SecondaryChainID []byte `json:"secondary_chain_id"`
 	Data             []byte `json:"data"`
 }
 
@@ -41,7 +41,7 @@ type SubmitMsgTxReply struct {
 	TxID string `json:"txId"`
 }
 
-func (cli *JSONRPCClient) SubmitTx(
+func (cli *JSONRPCClient) SubmitMsgTx(
 	ctx context.Context,
 	ChainId string,
 	NetworkID uint32,
@@ -53,9 +53,9 @@ func (cli *JSONRPCClient) SubmitTx(
 		ctx,
 		"submitMsgTx",
 		&SubmitMsgTxArgs{
-			ChainId:          ChainId,
+			ChainID:          ChainId,
 			NetworkID:        NetworkID,
-			SecondaryChainId: SecondaryChainId,
+			SecondaryChainID: SecondaryChainId,
 			Data:             Data,
 		},
 		resp,
@@ -66,15 +66,15 @@ func (cli *JSONRPCClient) SubmitTx(
 func (cli *JSONRPCClient) GetBlockHeadersByHeight(
 	ctx context.Context,
 	height uint64,
-	end int64,
+	endTimeStamp int64,
 ) (*types.BlockHeadersResponse, error) {
 	resp := new(types.BlockHeadersResponse)
 	err := cli.requester.SendRequest(
 		ctx,
 		"getBlockHeadersByHeight",
 		&types.GetBlockHeadersByHeightArgs{
-			Height: height,
-			End:    end,
+			Height:       height,
+			EndTimeStamp: endTimeStamp,
 		},
 		resp,
 	)
@@ -84,55 +84,38 @@ func (cli *JSONRPCClient) GetBlockHeadersByHeight(
 func (cli *JSONRPCClient) GetBlockHeadersID(
 	ctx context.Context,
 	id string,
-	end int64,
+	endTimeStamp int64,
 ) (*types.BlockHeadersResponse, error) {
 	resp := new(types.BlockHeadersResponse)
 	err := cli.requester.SendRequest(
 		ctx,
 		"getBlockHeadersId",
 		&types.GetBlockHeadersIDArgs{
-			ID:  id,
-			End: end,
+			ID:           id,
+			EndTimeStamp: endTimeStamp,
 		},
 		resp,
 	)
 	return resp, err
 }
 
-func (cli *JSONRPCClient) GetBlockHeadersByStart(
+func (cli *JSONRPCClient) GetBlockHeadersByStartTimeStamp(
 	ctx context.Context,
-	start int64,
-	end int64,
+	startTimeStamp int64,
+	endTimeStamp int64,
 ) (*types.BlockHeadersResponse, error) {
 	resp := new(types.BlockHeadersResponse)
 	err := cli.requester.SendRequest(
 		ctx,
-		"getBlockHeadersByStart",
-		&types.GetBlockHeadersByStartArgs{
-			Start: start,
-			End:   end,
+		"getBlockHeadersByStartTimeStamp",
+		&types.GetBlockHeadersByStartTimeStampArgs{
+			StartTimeStamp: startTimeStamp,
+			EndTimeStamp:   endTimeStamp,
 		},
 		resp,
 	)
 	return resp, err
 }
-
-// func (cli *JSONRPCClient) GetBlockTransactions(
-// 	ctx context.Context,
-// 	id string,
-// ) (*types.TransactionResponse, error) {
-// 	resp := new(types.TransactionResponse)
-// 	//TODO does this need to be lowercase for the string?
-// 	err := cli.requester.SendRequest(
-// 		ctx,
-// 		"getBlockTransactions",
-// 		&types.GetBlockTransactionsArgs{
-// 			ID: id,
-// 		},
-// 		resp,
-// 	)
-// 	return resp, err
-// }
 
 func (cli *JSONRPCClient) GetBlockTransactionsByNamespace(
 	ctx context.Context,
