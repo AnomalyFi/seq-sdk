@@ -37,8 +37,8 @@ type GetBlockHeadersIDArgs struct {
 }
 
 type GetBlockHeadersByStartTimeStampArgs struct {
-	StartTimeStamp int64 `json:"start"`
-	EndTimeStamp   int64 `json:"end"`
+	StartTimeStamp int64 `json:"start_timestamp"`
+	EndTimeStamp   int64 `json:"end_timestamp"`
 }
 
 type GetBlockTransactionsArgs struct {
