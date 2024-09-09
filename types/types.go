@@ -14,37 +14,31 @@ type BlockHeadersResponse struct {
 	Next   BlockInfo   `json:"next"`
 }
 
-// type TransactionResponse struct {
-// 	Txs     []*chain.Transaction `json:"txs"`
-// 	BlockId string               `json:"id"`
-// }
-
 type SEQTransaction struct {
 	Namespace   string `json:"namespace"`
-	Tx_id       string `json:"tx_id"`
+	TxID        string `json:"tx_id"`
 	Index       uint64 `json:"tx_index"`
 	Transaction []byte `json:"transaction"`
 }
 
-// TODO need to fix this. Tech debt
 type SEQTransactionResponse struct {
 	Txs     []*SEQTransaction `json:"txs"`
-	BlockId string            `json:"id"`
+	BlockID string            `json:"id"`
 }
 
 type GetBlockHeadersByHeightArgs struct {
-	Height uint64 `json:"height"`
-	End    int64  `json:"end"`
+	Height       uint64 `json:"height"`
+	EndTimeStamp int64  `json:"end_timestamp"`
 }
 
 type GetBlockHeadersIDArgs struct {
-	ID  string `json:"id"`
-	End int64  `json:"end"`
+	ID           string `json:"id"`
+	EndTimeStamp int64  `json:"end_timestamp"`
 }
 
-type GetBlockHeadersByStartArgs struct {
-	Start int64 `json:"start"`
-	End   int64 `json:"end"`
+type GetBlockHeadersByStartTimeStampArgs struct {
+	StartTimeStamp int64 `json:"start_timestamp"`
+	EndTimeStamp   int64 `json:"end_timestamp"`
 }
 
 type GetBlockTransactionsArgs struct {
